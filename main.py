@@ -52,15 +52,26 @@ def get_directory_list(url, top_n_dirs=10, file_format=None):
 
 
 def main():
+    ### Extract
     # how many months of data to download
-    top_n_dir = 1
+    top_n_dir = 2
     url = "https://dumps.wikimedia.org/other/clickstream/"
-
+    logging.info(
+        "Fetching list of top '{}' Directories from the '{}'".format(top_n_dir, url)
+    )
     dir_list = get_directory_list(url, top_n_dir)
+    logging.info("Fetched directories list successfully")
     print("top_n directories", dir_list)
+    logging.info("Fetching list of .gz files from the directories")
     for dir in dir_list:
+        logging.info(
+            "Fetching list of files from the directory '{}' at url '{}'".format(
+                dir, url + dir
+            )
+        )
         file_list = get_directory_list(url + dir, file_format=".gz")
-        print("file_list", file_list)
+        logging.info("Fetched files list successfully")
+        print("list of files from date {} is {}".format(dir, file_list))
 
 
 if __name__ == "__main__":
