@@ -9,7 +9,7 @@ import sys, os
 # custom imports
 from utils.logger import get_logger
 from utils.api import make_http_get_request
-from utils.utils import create_directory, delete_directory
+from utils.utils import create_directory, delete_directory, unzip_gz_file
 
 # configure logging
 get_logger()
@@ -110,4 +110,6 @@ def download_files(url, top_n_dir, download_dir):
         print("list of files from date {} is {}".format(dir, file_list))
 
         for file in file_list:
+            lang = file.split("-")[1].removesuffix("wiki")
             download_file(file, download_dir, url, dir)
+            unzip_gz_file(os.path.join(download_dir, dir, lang), file)

@@ -2,6 +2,9 @@ import os
 import shutil
 import logging
 from configparser import ConfigParser
+import gzip
+import sys
+
 
 def create_directory(directory):
     logging.info("Creating directory '{}'".format(directory))
@@ -16,7 +19,7 @@ def delete_directory(dir):
         shutil.rmtree(dir)
 
 
-def read_config(section, filename='config.ini'):
+def read_config(section, filename="config.ini"):
     parser = ConfigParser()
     parser.read(filename)
     if parser.has_section(section):
@@ -26,9 +29,19 @@ def read_config(section, filename='config.ini'):
             config = {key: section_[key] for key in section_}
             return config
         except KeyError as e:
-            logging.info(f'config {e} not found in the {filename} config file under section: {section}')
-            # sys.exit(1)
+            logging.info(
+                f"config {e} not found in the {filename} config file under section: {section}"
+            )
     else:
-        raise Exception(f'Section {section} not found in the {filename} file')
+        logging.error(f"Section {section} not found in the {filename} config file")
+        sys.exit(1)
 
 
+def unzip_gz_file(gz_file_path, file_name):
+    output_file_name = file_name.removesuffix(".gz")
+    input_file_path = os.path.join(gz_file_path, file_name)
+    logging.info(f"Extracting file {file_name} to {gz_file_path + output_file_name}")
+    with gzip.open(input_file_path, "rb") as gz_file:
+        with open(os.path.join(gz_file_path, output_file_name), "wb") as output_file:
+            shutil.copyfileobj(gz_file, output_file)
+    logging.info(f"Extracted file {file_name} successfully")
