@@ -1,13 +1,10 @@
 # Installed packages
-import requests
 from bs4 import BeautifulSoup
 
 # built-in imports
 import logging
-from datetime import datetime
 import traceback
 import sys, os
-import shutil
 
 # custom imports
 from utils.logger import get_logger
@@ -48,7 +45,7 @@ def get_directory_list(url, top_n_dirs=10, file_format=None):
                 if link.get("href").strip().endswith(file_format)
             ]
             return file_list
-    except Exception as e:
+    except Exception:
         logging.error(f"Error: {traceback.print_exc()}")
         return None
 
@@ -66,6 +63,7 @@ def download_file(file_name, download_dir, url, dir):
     create_directory(combined_path)
 
     # Download the file
+    logging.info("Downloading file '{}'".format(file_name))
     response = make_http_get_request(url + dir + file_name)
     if response is None:
         logging.error(
@@ -73,7 +71,6 @@ def download_file(file_name, download_dir, url, dir):
         )
         sys.exit(1)
     logging.info(f"Downloaded file successfully: {file_name}")
-    print("file downloaded", file_name)
 
     # Save the file
     logging.info("Saving the file '{}'".format(file_name))
@@ -105,7 +102,7 @@ def main():
 
     logging.info("Fetching list of .gz files from the directories")
     for dir in dir_list:
-        delete_directory(download_dir, dir)
+        delete_directory(os.path.join(download_dir, dir))
         logging.info(
             "Fetching list of files from the directory '{}' at url '{}'".format(
                 dir, url + dir
