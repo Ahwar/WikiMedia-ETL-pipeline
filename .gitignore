@@ -5,3 +5,6 @@ logs
 
 # compiled source
 *.pyc
+
+# large files
+downloads
