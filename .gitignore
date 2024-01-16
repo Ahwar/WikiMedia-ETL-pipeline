@@ -1,1 +1,7 @@
 venv
+# logs
+logs
+*.log
+
+# compiled source
+*.pyc
