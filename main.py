@@ -8,6 +8,7 @@ from utils.logger import get_logger
 from utils.utils import read_config
 from utils.utils import create_directory, delete_directory, unzip_gz_file
 from src.extract import get_directory_list, download_file
+from src.transformation import transform_file
 
 # configure logging
 get_logger()
@@ -66,6 +67,18 @@ def main():
             lang = file.split("-")[1].removesuffix("wiki")
             download_file(file, download_dir, url, dir)
             unzip_gz_file(os.path.join(download_dir, dir, lang), file)
+            ##########
+            ### Transform
+            ##########
+            logging.info("Transforming file '{}'".format(file))
+            df = transform_file(
+                os.path.join(download_dir, dir, lang),
+                file.removesuffix(".gz"),
+                lang,
+                dir.removesuffix("/"),
+            )
+            logging.info("Transformed file '{}' successfully".format(file))
+            print(df.head())
 
 
 if __name__ == "__main__":
