@@ -29,6 +29,9 @@ def main():
     db = PostGreSQL()
     db.connect(db_config)
     logging.info("Connected to PostGreSQL database successfully")
+
+    # create table if not exists
+    db.create_table_if_not_exists("wiki")
     db.close()
 
     #########
@@ -77,7 +80,7 @@ def main():
                 dir.removesuffix("/"),
             )
             logging.info("Transformed file '{}' successfully".format(file))
-            print(df.head())
+    db.close()
 
 
 if __name__ == "__main__":
