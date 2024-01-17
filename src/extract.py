@@ -9,7 +9,7 @@ import sys, os
 # custom imports
 from utils.logger import get_logger
 from utils.api import make_http_get_request
-from utils.utils import create_directory, delete_directory, unzip_gz_file
+from utils.utils import create_directory
 
 # configure logging
 get_logger()
@@ -82,34 +82,3 @@ def download_file(file_name, download_dir, url, dir):
     with open(file_path, "wb") as f:
         f.write(response.content)
     logging.info(f"Saved the file successfully at {file_path}")
-
-
-def download_files(url, top_n_dir, download_dir):
-    # Create download directory if it doesn't exist
-    create_directory(download_dir)
-
-    # Fetch list of directories
-    logging.info(
-        "Fetching list of top '{}' Directories from the '{}'".format(top_n_dir, url)
-    )
-    dir_list = get_directory_list(url, top_n_dir)
-    logging.info("Fetched directories list successfully")
-    print("top_n directories", dir_list)
-
-    # Fetch list of files from the directories
-    logging.info("Fetching list of .gz files from the directories")
-    for dir in dir_list:
-        delete_directory(os.path.join(download_dir, dir))
-        logging.info(
-            "Fetching list of files from the directory '{}' at url '{}'".format(
-                dir, url + dir
-            )
-        )
-        file_list = get_directory_list(url + dir, file_format=".gz")
-        logging.info("Fetched files list successfully")
-        print("list of files from date {} is {}".format(dir, file_list))
-
-        for file in file_list:
-            lang = file.split("-")[1].removesuffix("wiki")
-            download_file(file, download_dir, url, dir)
-            unzip_gz_file(os.path.join(download_dir, dir, lang), file)
