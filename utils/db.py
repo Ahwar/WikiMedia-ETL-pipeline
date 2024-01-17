@@ -42,7 +42,7 @@ class PostGreSQL:
     def create_table_if_not_exists(self, table_name):
         if self.table_exists(table_name):
             logging.info(f"Table {table_name} already exists")
-            
+
         else:
             logging.info(f"Creating table {table_name}")
             query = f"""
@@ -65,3 +65,15 @@ class PostGreSQL:
     def fetch(self, query):
         self.cursor.execute(query)
         return self.cursor.fetchall()
+
+    # function to loop over dataframe and insert each row to table
+    def insert(self, df, table_name):
+        logging.info(f"Loading data to table {table_name}")
+        for index, row in df.iterrows():
+            query = f"""
+                INSERT INTO {table_name} (referrer, resource, link_type, count, lang, month)
+                VALUES ('{row['referrer']}', '{row['resource']}', '{row['link_type']}', {row['count']}, '{row['lang']}', '{row['month']}')
+            """
+            # print(query)
+            self.execute(query)
+        logging.info(f"Loaded data to table {table_name} successfully")

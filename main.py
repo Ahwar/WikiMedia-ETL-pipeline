@@ -32,7 +32,6 @@ def main():
 
     # create table if not exists
     db.create_table_if_not_exists("wiki")
-    db.close()
 
     #########
     ### Extract
@@ -79,7 +78,14 @@ def main():
                 lang,
                 dir.removesuffix("/"),
             )
+            
             logging.info("Transformed file '{}' successfully".format(file))
+            
+            ##########
+            ### Load
+            ##########
+            # insert DataFrame data into table
+            db.insert(df, table_name="wiki")
     db.close()
 
 
