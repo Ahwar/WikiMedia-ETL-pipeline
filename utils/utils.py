@@ -45,3 +45,63 @@ def unzip_gz_file(gz_file_path, file_name):
         with open(os.path.join(gz_file_path, output_file_name), "wb") as output_file:
             shutil.copyfileobj(gz_file, output_file)
     logging.info(f"Extracted file {file_name} successfully")
+
+
+def read_program_arguments(section, config_file="config.ini"):
+    """
+    Read program arguments from the config file.
+
+    Args:
+        section (str): The section name in the config file.
+        config_file (str, optional): The path to the config file. Defaults to "config.ini".
+
+    Returns:
+        tuple: A tuple containing the top_n_dir (int), url (str), and download_dir (str).
+    """
+
+    ## Read program arguments from config file
+    # how many months of data to download
+    program_config = read_config(section, config_file)
+    # read main program arguments from the config file
+    try:
+        top_n_dir = int(program_config["no_of_latest_months"])
+        url = program_config["main_url"]
+        download_dir = program_config["download_directory"]
+        return top_n_dir, url, download_dir
+    except KeyError as e:
+        logging.info(f"config {e} not found in the config file")
+        sys.exit(1)
+
+
+def read_db_config(section, config_file="config.ini"):
+    """
+    Read database configuration from the specified section in the config file.
+
+    Args:
+        section (str): The section name in the config file.
+        config_file (str, optional): The path to the config file. Defaults to "config.ini".
+
+    Returns:
+        dict: A dictionary containing the database configuration parameters.
+
+    Raises:
+        KeyError: If any of the required configuration parameters are missing in the config file.
+    """
+
+    ## Read database arguments from config file
+    # how many months of data to download
+    db_config = read_config(section, config_file)
+    config = {}
+    # read main program arguments from the config file
+    try:
+        config["database"] = db_config["database"]
+        config["user"] = db_config["user"]
+        config["password"] = db_config["password"]
+        config["host"] = db_config["host"]
+        config["port"] = db_config["port"]
+        return config
+    except KeyError as e:
+        logging.info(
+            f"config {e} not found in the config file under section: {section}"
+        )
+        sys.exit(1)

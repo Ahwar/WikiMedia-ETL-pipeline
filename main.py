@@ -1,37 +1,29 @@
 # built-in imports
 import logging
 import traceback
-import sys, os
+import os
 
 # custom imports
 from utils.logger import get_logger
-from utils.utils import read_config
 from utils.utils import create_directory, delete_directory, unzip_gz_file
+from utils.utils import read_program_arguments, read_db_config
+from utils.db import PostGreSQL
 from src.extract import get_directory_list, download_file
 from src.transformation import transform_file
+
 
 # configure logging
 get_logger()
 
 
-def read_program_arguments():
-    ## Read program arguments from config file
-    # how many months of data to download
-    program_config = read_config("PROGRAM")
-    # read main program arguments from the config file
-    try:
-        top_n_dir = int(program_config["no_of_latest_months"])
-        url = program_config["main_url"]
-        download_dir = program_config["download_directory"]
-        return top_n_dir, url, download_dir
-    except KeyError as e:
-        logging.info(f"config {e} not found in the config file")
-        sys.exit(1)
-
-
 def main():
 
-    top_n_dir, url, download_dir = read_program_arguments()
+    # read program arguments from config file
+    logging.info("Reading configuration from config file")
+    top_n_dir, url, download_dir = read_program_arguments("PROGRAM")
+    db_config = read_db_config("DATABASE")
+    logging.info("Configuration read successfully")
+
     #########
     ### Extract
     ##########
