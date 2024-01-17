@@ -37,6 +37,60 @@ Best of luck!
 
 
 ## Install
+
+
+### Installing PostgreSQL
+
+Follow these steps to install `PostgreSQL` on Ubuntu (Linux):
+
+1. Update your local `apt` package cache:
+   ```
+   sudo apt update
+   ```
+
+2. Install PostgreSQL with:
+   ```
+   sudo apt install postgresql postgresql-contrib
+   ```
+
+3. Ensure that the service is started:
+   ```
+   sudo systemctl start postgresql.service
+   ```
+
+4. To start using PostgreSQL, you can switch to the postgres account (which was created during the installation process) with:
+   ```
+   sudo -i -u postgres
+   ```
+5. now default user postgres is being used, now you will have to set password to the user
+
+    ```
+    \password postgres
+    ```
+6. create database using 
+
+    ```
+    createdb wikimedia
+    ```
+
+5. Install apt package to 
+```
+sudo apt install build-essential libpq-dev postgresql postgresql-contrib python3-venv python3-dev
+```
+
+Now make sure that you have set the password to the config.ini file under [DATABASE] section like following:
+
+```
+[DATABASE]
+database=wikimedia
+user=postgres
+password=fea#23#@feFFEd
+host=localhost
+port=5432
+```
+
+you will have set the password, other values are good as it is
+
 ### Setup Python Virtual Environment
 
 Follow the steps below to setup a Python virtual environment using `venv`.

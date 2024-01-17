@@ -24,6 +24,13 @@ def main():
     db_config = read_db_config("DATABASE")
     logging.info("Configuration read successfully")
 
+    # connect to PostGreSQL database
+    logging.info("Connecting to PostGreSQL database")
+    db = PostGreSQL()
+    db.connect(db_config)
+    logging.info("Connected to PostGreSQL database successfully")
+    db.close()
+
     #########
     ### Extract
     ##########
