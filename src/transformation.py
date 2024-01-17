@@ -17,6 +17,12 @@ def clean_dataframe(df):
             "n": "count",
         },
     )
+
+    # Remove specific characters from columns
+    df["referrer"] = df["referrer"].str.replace("'", "")
+    df["resource"] = df["resource"].str.replace("'", "")
+    df["link_type"] = df["link_type"].str.replace("'", "")
+
     return df
 
 
@@ -60,4 +66,3 @@ def transform_file(directory, file, lang, month):
     df = add_columns(df, "lang", lang)
     df = add_columns(df, "month", month)
     return df
-
