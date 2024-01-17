@@ -9,7 +9,7 @@ def get_logger():
         os.makedirs("logs")
 
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.DEBUG,
         format="%(asctime)s - %(levelname)s - %(message)s",
         handlers=[
             logging.FileHandler(f"logs/wikimedia-log-{datetime.now()}.log"),

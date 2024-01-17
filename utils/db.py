@@ -74,6 +74,12 @@ class PostGreSQL:
                 INSERT INTO {table_name} (referrer, resource, link_type, count, lang, month)
                 VALUES ('{row['referrer']}', '{row['resource']}', '{row['link_type']}', {row['count']}, '{row['lang']}', '{row['month']}')
             """
-            # print(query)
             self.execute(query)
         logging.info(f"Loaded data to table {table_name} successfully")
+    
+    def get_distinct_list(self, column, table_name):
+        """ Get distinct list of values from a column in a table """
+        query = f"""
+            SELECT DISTINCT {column} FROM {table_name}
+        """
+        return [lang[0] for lang in self.fetch(query)] 

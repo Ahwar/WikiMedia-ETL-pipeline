@@ -51,41 +51,48 @@ def main():
     # Fetch list of files from the directories
     logging.info("Fetching list of .gz files from the directories")
     for dir in dir_list:
-        delete_directory(os.path.join(download_dir, dir))
-        logging.info(
-            "Fetching list of files from the directory '{}' at url '{}'".format(
-                dir, url + dir
+        if dir.strip().removesuffix("/") not in db.get_distinct_list("month", "wiki"):
+            delete_directory(os.path.join(download_dir, dir))
+            logging.info(
+                "Fetching list of files from the directory '{}' at url '{}'".format(
+                    dir, url + dir
+                )
             )
-        )
-        # get list of files from the directory
-        file_list = get_directory_list(url + dir, file_format=".gz")
-        logging.info("Fetched files list successfully")
-        print("list of files from date {} is {}".format(dir, file_list))
-        logging.info("Processing each file '{}'".format(dir))
+            # get list of files from the directory
+            file_list = get_directory_list(url + dir, file_format=".gz")
+            logging.info("Fetched files list successfully")
+            print("list of files from date {} is {}".format(dir, file_list))
+            logging.info("Processing each file '{}'".format(dir))
 
-        ## Loop through files in each directory
-        for file in file_list:
-            lang = file.split("-")[1].removesuffix("wiki")
-            download_file(file, download_dir, url, dir)
-            unzip_gz_file(os.path.join(download_dir, dir, lang), file)
-            ##########
-            ### Transform
-            ##########
-            logging.info("Transforming file '{}'".format(file))
-            df = transform_file(
-                os.path.join(download_dir, dir, lang),
-                file.removesuffix(".gz"),
-                lang,
-                dir.removesuffix("/"),
+            ## Loop through files in each directory
+            for file in file_list:
+                lang = file.split("-")[1].removesuffix("wiki")
+                download_file(file, download_dir, url, dir)
+                unzip_gz_file(os.path.join(download_dir, dir, lang), file)
+                ##########
+                ### Transform
+                ##########
+                logging.info("Transforming file '{}'".format(file))
+                df = transform_file(
+                    os.path.join(download_dir, dir, lang),
+                    file.removesuffix(".gz"),
+                    lang,
+                    dir.removesuffix("/"),
+                )
+
+                logging.info("Transformed file '{}' successfully".format(file))
+
+                ##########
+                ### Load
+                ##########
+                # insert DataFrame data into table
+                db.insert(df, table_name="wiki")
+        else:
+            logging.debug(
+                "Monthly data of '{}' already exists in the database, so not inserting that data".format(
+                    dir.removesuffix("/")
+                )
             )
-            
-            logging.info("Transformed file '{}' successfully".format(file))
-            
-            ##########
-            ### Load
-            ##########
-            # insert DataFrame data into table
-            db.insert(df, table_name="wiki")
     db.close()
 
 
