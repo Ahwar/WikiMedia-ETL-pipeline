@@ -82,12 +82,13 @@ class PostGreSQL:
     def insert(self, df, table_name):
         """ Insert DataFrame data into table"""
         logging.info(f"Loading data to table {table_name}")
-        for index, row in df.iterrows():
-            query = f"""
-                INSERT INTO {table_name} (referrer, resource, link_type, count, lang, month)
-                VALUES ('{row['referrer']}', '{row['resource']}', '{row['link_type']}', {row['count']}, '{row['lang']}', '{row['month']}')
-            """
-            self.execute(query)
+        query = f"""
+            INSERT INTO {table_name} (referrer, resource, link_type, count, lang, month)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        values = df[['referrer', 'resource', 'link_type', 'count', 'lang', 'month']].values.tolist()
+        self.cursor.executemany(query, values)
+        self.conn.commit()
         logging.info(f"Loaded data to table {table_name} successfully")
     
     def get_distinct_list(self, column, table_name):
