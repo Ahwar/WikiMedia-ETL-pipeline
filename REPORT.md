@@ -52,10 +52,25 @@ Operations not needing to be completed immediately can be moved to asynchronous 
 ### Archiving Data
 Not all data needs to be readily available all the time. For example, old data may not required in the future so that we can archive old files and old data in the database to different systems and databases.
 
-### Distributed Systems:
+### Distributed Systems
 Loading the data frame to the database is the most time-consuming process in our pipeline; as data volume increases and we have a lot of files to load into the data, the process can be very long. We can use Distributed Systems to load the file to the database to avoid that.  
 Different files can be distributed to other systems so that each system processes additional files, and ETL process time can be reduced.
 
 ### Monitoring and Performance Tuning
 
 Keeping a regular check on the system can help us spot problems and areas that need to be better.  This can involve tracking metrics like query performance, CPU usage, memory usage, and disk I/O.
+
+## Real-Time Streaming Data Ingestion
+
+**Data Ingestion**
+Instead of batch processing, we would need to set up a system to ingest data in real-time. This could be done using a message queue or a streaming platform like Apache Kafka or Amazon Kinesis.
+
+
+**Data Processing**
+The existing ETL procedure would need adjustments to manage streaming data. This might mean altering the extraction, transformation, and loading stages to operate on a constant flow of data instead of batched data. It could necessitate the use of a stream processing system such as Apache Flink, Apache Beam, or Spark Streaming.
+
+**Keeping an Eye on Things**
+With a real-time system, we need to be able to spot and fix problems quickly. We could set up dashboards to keep an eye on how the system is doing, and alerts to let us know if there's a problem.
+
+**Storing the Data**
+Depending on how much data is coming in and how fast it's coming in, we might need to use a different kind of database. We could use a time-series database or a NoSQL database, which are both good for handling real-time data.
