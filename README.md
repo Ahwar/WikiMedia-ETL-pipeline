@@ -102,6 +102,12 @@ to run code, run this command
     python main.py
     ```
 
+## Run code periodically
+To run your code automatically each month on the third day at 12 AM, you can use a cron job if you're on a Unix-based system. The rationale behind choosing the third day for data loading is to account for potential delays in Wikimedia's data upload process, which may not occur promptly on the first day.
+
+```shell
+0 0 3 * * /usr/bin/python3 /path/to/your/script.py
+```
 
 ## ETL Approach
 
@@ -127,4 +133,4 @@ To avoid loading the data again, if we run a new pipeline, the data won't be loa
 
 **Automation**
 
-To ensure the code runs each month to load the data of the last month, we set up a cron job that will run the ETL pipeline code each month.
+To ensure the code runs each month to load the data of the last month, we set up a cron job that will run the ETL pipeline code each month at the third day. The rationale behind choosing the third day for data loading is to account for potential delays in Wikimedia's data upload process, which may not occur promptly on the first day.
