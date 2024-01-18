@@ -4,6 +4,17 @@ import pandas as pd
 
 
 def clean_dataframe(df):
+    """
+    Cleans the given dataframe by handling missing values, duplicates, and renaming columns.
+    It also removes specific characters from the 'referrer', 'resource', and 'link_type' columns.
+
+    Args:
+        df (pandas.DataFrame): The input dataframe to be cleaned.
+
+    Returns:
+        pandas.DataFrame: The cleaned dataframe.
+    """
+    
     # Handling Missing Values
     df.dropna(inplace=True)
     # Handling Duplicates
@@ -44,6 +55,19 @@ def add_columns(df, name: str, value):
 
 
 def transform_file(directory, file, lang, month):
+    """
+    Transforms a file by reading it as a DataFrame, cleaning the data, and adding necessary columns.
+
+    Args:
+        directory (str): The directory path where the file is located.
+        file (str): The name of the file to be transformed.
+        lang (str): The language of the data.
+        month (str): The month of the data.
+
+    Returns:
+        pandas.DataFrame: The transformed DataFrame.
+    """
+    
     df = pd.read_csv(
         os.path.join(directory, file),
         sep="\t",
@@ -52,17 +76,7 @@ def transform_file(directory, file, lang, month):
         index_col=None,
     )
 
-    # The current data includes the following 4 fields:
-
-    # prev: the result of mapping the referrer URL to the fixed set of values described above
-    # curr: the title of the article the client requested
-    # type: describes (prev, curr)
-    # link: if the referrer and request are both articles and the referrer links to the request
-    # external: if the referrer host is not en(.m)?.wikipedia.org
-    # other: if the referrer and request are both articles but the referrer does not link to the request. This can happen when clients search or spoof their refer.
-    # n: the number of occurrences of the (referrer, resource) pair
     df = clean_dataframe(df)
-    # add necessary columns for the final output
     df = add_columns(df, "lang", lang)
     df = add_columns(df, "month", month)
     return df

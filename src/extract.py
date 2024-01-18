@@ -20,6 +20,18 @@ functions to extract data from source
 
 
 def get_directory_list(url, top_n_dirs=10, file_format=None):
+    """
+    Retrieves a list of directories or files from a given URL.
+
+    Args:
+        url (str): The URL to fetch the webpage from.
+        top_n_dirs (int, optional): The number of top directories to extract. Defaults to 10.
+        file_format (str, optional): The file format to filter for. Defaults to None.
+
+    Returns:
+        list: A list of directories or files.
+    """
+    
     try:
         # Send an HTTP request to the webpage
         response = make_http_get_request(url)
@@ -55,7 +67,18 @@ def get_directory_list(url, top_n_dirs=10, file_format=None):
 
 
 def download_file(file_name, download_dir, url, dir):
+    """
+    Downloads a file from a given URL and saves it to the specified directory.
 
+    Args:
+        file_name (str): The name of the file to be downloaded.
+        download_dir (str): The directory where the file will be saved.
+        url (str): The base URL from where the file will be downloaded.
+        dir (str): The subdirectory within the URL where the file is located.
+
+    Returns:
+        None
+    """
     logging.info(
         "Downloading file '{}' from the directory '{}' at url '{}'".format(
             file_name, dir, url + dir + file_name

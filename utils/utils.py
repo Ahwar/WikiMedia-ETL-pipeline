@@ -20,6 +20,16 @@ def delete_directory(dir):
 
 
 def read_config(section, filename="config.ini"):
+    """
+    Read the specified section from the given config file.
+
+    Args:
+        section (str): The section name to read from the config file.
+        filename (str, optional): The path to the config file. Defaults to "config.ini".
+
+    Returns:
+        dict: A dictionary containing the configuration values from the specified section.
+    """
     parser = ConfigParser()
     parser.read(filename)
     if parser.has_section(section):
@@ -38,6 +48,16 @@ def read_config(section, filename="config.ini"):
 
 
 def unzip_gz_file(gz_file_path, file_name):
+    """
+    Extracts a .gz file to the specified directory.
+
+    Args:
+        gz_file_path (str): The path to the directory where the .gz file is located.
+        file_name (str): The name of the .gz file.
+
+    Returns:
+        None
+    """
     output_file_name = file_name.removesuffix(".gz")
     input_file_path = os.path.join(gz_file_path, file_name)
     logging.info(f"Extracting file {file_name} to {gz_file_path + output_file_name}")

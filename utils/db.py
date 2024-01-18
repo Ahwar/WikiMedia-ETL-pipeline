@@ -12,18 +12,30 @@ class PostGreSQL:
         self.cursor = None
 
     def connect(self, db_config):
-        try:
-            self.conn = psycopg2.connect(
-                database=db_config.get("database"),
-                user=db_config.get("user"),
-                password=db_config.get("password"),
-                host=db_config.get("host"),
-                port=db_config.get("port"),
-            )
-            self.cursor = self.conn.cursor()
-        except OperationalError as e:
-            logging.error(f"Error occurred while Connecting to PostgreSQL DB: {e}")
-            sys.exit(1)
+            """
+            Connects to the PostgreSQL database using the provided configuration.
+
+            Args:
+                db_config (dict): A dictionary containing the database configuration parameters.
+
+            Raises:
+                OperationalError: If an error occurs while connecting to the database.
+
+            Returns:
+                None
+            """
+            try:
+                self.conn = psycopg2.connect(
+                    database=db_config.get("database"),
+                    user=db_config.get("user"),
+                    password=db_config.get("password"),
+                    host=db_config.get("host"),
+                    port=db_config.get("port"),
+                )
+                self.cursor = self.conn.cursor()
+            except OperationalError as e:
+                logging.error(f"Error occurred while Connecting to PostgreSQL DB: {e}")
+                sys.exit(1)
 
     def close(self):
         self.conn.close()
@@ -68,6 +80,7 @@ class PostGreSQL:
 
     # function to loop over dataframe and insert each row to table
     def insert(self, df, table_name):
+        """ Insert DataFrame data into table"""
         logging.info(f"Loading data to table {table_name}")
         for index, row in df.iterrows():
             query = f"""
