@@ -35,3 +35,27 @@ To ensure the code runs each month to load the data of the last month, we set up
 
 This is a diagram providing a simplified overview of our ETL approach.  
 
+## Scalability and Performance Design:  
+
+
+### Data Partitioning:
+
+As data in our target table grows, we can use Data Partitioning. This method involves splitting our table data into separate sections or partitions. This can speed up the process of querying data from our table.
+
+We can organize these partitions based on different factors. For example, we could create partitions for each month the data comes from or based on the language of the Wikimedia data.
+
+The advantage of partitioning is evident when we need to retrieve data for a specific month. Instead of scanning the entire table, we can go straight to the relevant partition. This approach significantly narrows down the area we need to search, making our queries faster and more efficient.
+
+### Asynchronous Processing
+Operations not needing to be completed immediately can be moved to asynchronous processing. The benefit of using Asynchronous processing is that some processes that are time-consuming and do not need to be satisfied immediately, for example, uncompressing the gz compressed files, can be moved to an Asynchronous process so that the primary ETL process does not halt when the code is uncompressing the compressed files.
+
+### Archiving Data
+Not all data needs to be readily available all the time. For example, old data may not required in the future so that we can archive old files and old data in the database to different systems and databases.
+
+### Distributed Systems:
+Loading the data frame to the database is the most time-consuming process in our pipeline; as data volume increases and we have a lot of files to load into the data, the process can be very long. We can use Distributed Systems to load the file to the database to avoid that.  
+Different files can be distributed to other systems so that each system processes additional files, and ETL process time can be reduced.
+
+### Monitoring and Performance Tuning
+
+Keeping a regular check on the system can help us spot problems and areas that need to be better.  This can involve tracking metrics like query performance, CPU usage, memory usage, and disk I/O.
