@@ -2,6 +2,15 @@
 ## Overview:
 In this project, I will be working with the Wikimedia Clickstream dataset, which is available at Wikimedia Dumps. This dataset includes monthly Wikipedia clickstream data dumps for a selection of top Wikipedia languages, ranked by Wikipedia size. Each file in the dataset contains counts of (referrer, resource) pairs, extracted from the request logs of Wikipedia. Given the large size of these datasets, I will be focusing on using the latest dump only.
 
+> The current data includes the following 4 fields:
+
+`prev`: the result of mapping the referrer URL to the fixed set of values described above
+`curr`: the title of the article the client requested
+`type`: describes `(prev, curr)`
+    `link`: if the referrer and request are both articles and the referrer links to the request
+    `external`: if the referrer host is not `en(.m)?.wikipedia.org`
+    `other`: if the referrer and request are both articles but the referrer does not link to the `request`. This can happen when clients search or spoof their refer.
+`n`: the number of occurrences of the (referrer, resource) pair
 
 ## Install and Setup
 
@@ -134,3 +143,12 @@ To avoid loading the data again, if we run a new pipeline, the data won't be loa
 **Automation**
 
 To ensure the code runs each month to load the data of the last month, we set up a cron job that will run the ETL pipeline code each month at the third day. The rationale behind choosing the third day for data loading is to account for potential delays in Wikimedia's data upload process, which may not occur promptly on the first day.
+
+
+## Optional Task
+
+### Show EDA (Exploratory Data Analysis)  
+
+In the notebook `EDA.ipynb`, we have writen a code which load data from database and shows link_type distribution for each language in specific month.  
+
+This notebook can be used to visualize distribution of any categorical column our target database.

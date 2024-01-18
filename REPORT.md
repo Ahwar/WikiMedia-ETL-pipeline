@@ -74,3 +74,11 @@ With a real-time system, we need to be able to spot and fix problems quickly. We
 
 **Storing the Data**
 Depending on how much data is coming in and how fast it's coming in, we might need to use a different kind of database. We could use a time-series database or a NoSQL database, which are both good for handling real-time data.
+
+
+### Exploratory Data Analysis
+shows link_type distribution for each language in specific month
+
+![distribution](bin/distribution_viz.png)
+
+We can get distribution for any categorical column using `EDA.ipynb`
