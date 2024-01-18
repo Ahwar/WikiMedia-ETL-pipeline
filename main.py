@@ -12,6 +12,7 @@ from src.extract import get_directory_list, download_file
 from src.transformation import transform_file
 
 
+
 # configure logging
 get_logger()
 
@@ -105,3 +106,5 @@ if __name__ == "__main__":
         print("\n-- KeyboardInterrupt --")
     except Exception as e:
         logging.error(f"Error: {traceback.print_exc()}")
+
+
