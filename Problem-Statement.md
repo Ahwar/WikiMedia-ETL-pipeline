@@ -1,50 +1,26 @@
-## Business Context
+## Background
+You will work with the `Wikimedia Clickstream dataset`, available at `Wikimedia Dumps` The datasets contain monthly Wikipedia clickstream data dumps for a selection of top Wikipedia languages by Wikipedia size. Each file contains `counts of (referrer, resource)` pairs extracted from the request logs of Wikipedia. Since the datasets are large, you may consider using the latest dump only.
 
-`FlavorWiki` is a digital market research company that is revolutionizing the way the food industry collects, analyzes and leverages consumer insights across all relevant purchase drivers. As a Data Scientist, your jobs in tech will be related to developing any feature related to sensory analysis. This includes data processing, data analysis and some basic statistical analysis.  
+## Objectives
+Develop an `ETL pipeline` to ingest this clickstream data to a database of your choice. The raw dumps might include missing values or some irrelevant data. `Transform` the data into a suitable format and document all steps.
+Assuming the `clickstream` data will be updated periodically, the data ingestion should run automatically (e.g., daily or weekly) as part of a `cron job`.
+Propose methods to ensure `data quality` and `consistency` across the `pipeline`. Describe how you would handle issues like duplicate data, missing values, and schema changes.
+`Explain` (writeup only, no code) how your design scales with increasing data volumes and what strategies you would employ to ensure performance is not compromised. This includes considerations for `data partitioning`, `indexing`, and `caching`.
+Explain (writeup only, no code) how would you modify the pipeline to support `streaming data ingestion` in real time.
+(Optional/Bonus) `Data Analysis` and `Machine Learning`: Perform `exploratory data analysis (EDA)` on your dataset. Identify trends, patterns, and anomalies. Implement a machine learning model using the dataset. Possible tasks might include predicting future click patterns or classifying types of clicks.
+Deliverables  
+## Code: 
+Push all code to this GitHub repository. We should be able to run your pipeline and replicate your steps on our end, from db setup, to data ingestion.
+## Documentation:  
+Include a `README` with an overview, setup instructions, and a detailed explanation of your approach.
+### Report:  
+Submit a report detailing your ETL process, scalability considerations, streaming modifications, a high-level architecture diagram of the `ETL pipeline`, and findings from the data analysis/machine learning phase.
+## Evaluation Criteria
+There is no right or wrong way to accomplish this task. Your goal should be to show off your Data Engineering skills and demonstrate a thorough analysis of the problem during the review session. If you're a data wizard, you can show off your deep familiarity with data processing, architecture choices, fault tolerance, and scalability. If you're a modeling/analytics expert, show us a deep understanding of the models you use and show us how you'd set up metrics. Play to your strengths!
 
-Specifically, the role of a Data Scientist is to do research together with Consumer Scientists, and then write code/script to be deployed then in the `FlavorWiki`’s application as a new feature or even a new tool. Your assignment here is to provide  code/scripts that can be used for analyzing the sensory data collected by `FlavorWiki`.
+### Requirements:
+Please make your first commit when you start working on the exercise and your second commit exactly 1 hour after the start. After 1 hour you are free to continue working on the problem for up to 48 hours. We ask that you add a commit any time you stop or restart working on the problem within those 48 hours.
 
-## Data Source
+Please let us know by email when this is ready for review.
 
-The data will be available via CSV files:
-
--  `flavorwiki.csv`
--  `jar.csv`
--  `penalty.csv`
-
-
-## Instruction  
-
-The state of sensory analysis is mostly related to basic statistical analysis such as descriptive, significance and/or comparison analysis. We encourage you to do basic statistical analysis from the data. There will be 2 different analyses you need to complete.
-### Analysis
-#### Statistical Significance of Difference:  
-Please use a csv file named `flavorwiki.csv`. In the file, you will find consumer responses data related to some products. There is a column `Product` which indicates the product names available in the survey and Answer Value which contains the product’s overall liking score.
-
-In this first section, you must create a Python script to analyze the data. The analysis works by comparing the average overall liking scores between the products to see whether it's significantly different or not. You can choose one of two statistical tests (`Tukey` or `Fisher`) with alpha level either at `5%` or `10%`. If you want to code both tests, it is fine too.
-
-#### Sensory Penalty Analysis:
-In the second section, you need to create a Python script to be used to run an analysis named `Penalty Analysis`. `Penalty analysis` is one of the common analyses used in the sensory analytic industry. Basically, it used to assist in identifying decreases in acceptability associated with sensory attributes not at optimal levels in a product. You can find a detailed description and the formula of penalty analysis here. 
-
-For penalty analysis, you will used 2 different csv files:
--  `jar.csv`: a file contains Just About Right (JAR) data  
--  `penalty.csv`: a file contains data about Overall Liking score
-
-Please write a Python code to run a `Penalty Analysis`` separately for each product available in the file.
-
- 
-
-## Submission Requirements
--  Please write the code using Python version 3.6x or above
-
--  The output of your code should be files in 2 different format: Excel (or CSV) file and JSON
-
--  You can customize the format/template of your output files. However, please also provide a brief explanation about how to read those files
-
--  Provide the output for each analysis separately
-
-
-
-## Terms & Conditions
-
--  Don’t make the problem statement, dataset and your submission publicity available, for by example posting this problem on blog, forum, etc
--  The candidate is expected to finish the test within 72 hours, started from the candidate received the instructions and dataset
+Best of luck!
